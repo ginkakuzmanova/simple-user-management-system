@@ -7,7 +7,11 @@ const { reducer: usersReducer, actions } = createSlice({
   reducers: {
     addUser: (state, action) => {
       const { firstName, lastName, email } = action.payload;
+      if(!state.includes(action.payload)){
       state.push({ id: uuid(), firstName, lastName, email });
+      } else {
+        throw new Error();
+      }
     },
     editUser: (state, action) => {
       for (let i = 0; i < state.length; i++) {
@@ -21,9 +25,11 @@ const { reducer: usersReducer, actions } = createSlice({
         }
       }
     },
-    removeUser: (state, action) => {
+    deleteUser: (state, action) => {
       const { id } = action.payload;
-      state.filter((user) => user.id !== id);
+      const toDel = state.find((user) => user.id === id);
+      const index = state.indexOf(toDel);
+      state.splice(index, 1);
     },
   },
 });
@@ -44,6 +50,12 @@ export const editUser = (user) => {
 
 export const removeUser = (user) => {
   return (dispatch) => {
-    dispatch(actions.removeUser(user));
+    dispatch(actions.deleteUser(user));
+  };
+};
+
+export const findUser = (user) => {
+  return (dispatch) => {
+    dispatch(actions.findUser(user));
   };
 };
