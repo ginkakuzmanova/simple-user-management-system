@@ -1,60 +1,68 @@
 import React from "react";
-import { TextField, Button, LinearProgress } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
+import { TextField } from "formik-material-ui";
 import { Formik, Form, Field } from "formik";
 import { UserValidationSchema } from "../../validation/userSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../store/usersSlice";
 
 export default function UserForm() {
+  const dispatch = useDispatch();
   return (
-    <Formik
-      initialValues={{
-        firstName: "",
-        lastName: "",
-        email: "",
-      }}
-      validationSchema={UserValidationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
-      }}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <Form>
-          <Field
-            component={TextField}
-            name='firstName'
-            type='text'
-            label='First Name'
-          />
-          <br />
-          <Field
-            component={TextField}
-            variant=""
-            name='lastName'
-            type='text'
-            label='Last Name'
-          />
-          <br />
-          <Field
-            component={TextField}
-            name='email'
-            type='email'
-            label='Email'
-          />
-          {isSubmitting && <LinearProgress />}
-          <br />
-          <br />
-          <Button
-            variant='outlined'
-            color='primary'
-            disabled={isSubmitting}
-            onClick={submitForm}
-          >
-            Submit
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <Card variant='outlined'>
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+        }}
+        onSubmit={(values, { resetForm }) => {
+          try {
+            console.log(values);
+            // dispatch(addUser(values));
+            resetForm({ values: "" });
+          } catch (ok) {}
+        }}
+        validationSchema={UserValidationSchema}
+      >
+        {({ isValid, isSubmitting }) => {
+          return (
+            <Form>
+              <Field
+                component={TextField}
+                type='text'
+                name='firstName'
+                label='First Name'
+              />
+              <br />
+              <Field
+                component={TextField}
+                type='text'
+                name='lastName'
+                label='Last Name'
+              />
+              <br />
+              <Field
+                component={TextField}
+                type='text'
+                name='email'
+                label='Email'
+              />
+              <br />
+              <br />
+              <Button
+                style={{ marginBottom: "20px" }}
+                variant='outlined'
+                color='primary'
+                type='submit'
+                disabled={!isValid || isSubmitting}
+              >
+                Submit
+              </Button>
+            </Form>
+          );
+        }}
+      </Formik>
+    </Card>
   );
 }
