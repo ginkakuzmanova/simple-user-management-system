@@ -5,9 +5,11 @@ import { Formik, Form, Field } from "formik";
 import { UserValidationSchema } from "../../validation/userSchema";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../store/usersSlice";
+import { useHistory } from "react-router-dom";
 
 export default function UserForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <Card variant='outlined'>
       <Formik
@@ -58,6 +60,14 @@ export default function UserForm() {
                 disabled={!isValid || isSubmitting}
               >
                 Submit
+              </Button>
+              <Button
+                style={{ marginBottom: "20px", marginLeft: "1em" }}
+                variant='outlined'
+                color='primary'
+                onClick={() => history.push("/")}
+              >
+                Back
               </Button>
             </Form>
           );
