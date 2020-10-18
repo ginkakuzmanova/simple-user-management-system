@@ -3,27 +3,30 @@ import { Button, Card } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
 import { Formik, Form, Field } from "formik";
 import { UserValidationSchema } from "../../validation/userSchema";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../store/usersSlice";
+import { useDispatch } from "react-redux";
+import { addUser, editUser } from "../../store/usersSlice";
 import { useHistory } from "react-router-dom";
 
-export default function UserForm() {
+export default function UserForm(props) {
+  const {recordForEdit} = props;
   const dispatch = useDispatch();
   const history = useHistory();
   return (
     <Card variant='outlined'>
       <Formik
+      //TODO: Move logic for edit to another form with values initial as 
         initialValues={{
           firstName: "",
-          lastName: "",
+          lastName:"",
           email: "",
         }}
         onSubmit={(values, { resetForm }) => {
           try {
-            console.log(values);
-            // dispatch(addUser(values));
+            dispatch(addUser(values));
             resetForm({ values: "" });
-          } catch (ok) {}
+          } catch (error) {
+            resetForm({ values: "" });
+          }
         }}
         validationSchema={UserValidationSchema}
       >

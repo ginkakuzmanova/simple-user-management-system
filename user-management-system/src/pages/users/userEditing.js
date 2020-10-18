@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import FormHeader from "../../components/FormHeader";
 import { PeopleAltRounded } from "@material-ui/icons";
-import UserEditForm from "./userEditForm";
 
 export default function UserEditing() {
   return (
@@ -11,7 +10,6 @@ export default function UserEditing() {
         subTitle='Please edit user details'
         icon={<PeopleAltRounded />}
       ></FormHeader>
-      <UserEditForm />
     </Fragment>
   );
 }

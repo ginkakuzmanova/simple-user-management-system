@@ -7,25 +7,29 @@ const { reducer: usersReducer, actions } = createSlice({
   reducers: {
     addUser: (state, action) => {
       const { firstName, lastName, email } = action.payload;
+      if(!state.includes(action.payload)){
       state.push({ id: uuid(), firstName, lastName, email });
+      } else {
+        throw new Error();
+      }
     },
-    findUser: (state, action) => {
-      const {id} = action.payload;
-      return state.find(user => user.id === id)
-      // for (let i = 0; i < state.length; i++) {
-      //   const user = state[i];
+    editUser: (state, action) => {
+      for (let i = 0; i < state.length; i++) {
+        const user = state[i];
 
-      //   if (user.id === action.payload.id) {
-      //     user.firstName = action.payload.firstName;
-      //     user.lastName = action.payload.lastName;
-      //     user.email = action.payload.email;
-      //     break;
-      //   }
-      // }
+        if (user.id === action.payload.id) {
+          user.firstName = action.payload.firstName;
+          user.lastName = action.payload.lastName;
+          user.email = action.payload.email;
+          break;
+        }
+      }
     },
-    removeUser: (state, action) => {
+    deleteUser: (state, action) => {
       const { id } = action.payload;
-      state.filter((user) => user.id !== id);
+      const toDel = state.find((user) => user.id === id);
+      const index = state.indexOf(toDel);
+      state.splice(index, 1);
     },
   },
 });
@@ -46,7 +50,7 @@ export const editUser = (user) => {
 
 export const removeUser = (user) => {
   return (dispatch) => {
-    dispatch(actions.removeUser(user));
+    dispatch(actions.deleteUser(user));
   };
 };
 
