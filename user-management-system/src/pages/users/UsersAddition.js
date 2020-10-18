@@ -11,7 +11,6 @@ export default function UsersAddition() {
         subTitle='Please enter details about the user'
         icon={<PersonAddOutlined />}
       ></FormHeader>
-  
       <UserForm />
     </Fragment>
   );

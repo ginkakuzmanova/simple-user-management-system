@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +67,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function Header() {
+  const history = useHistory();
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -77,7 +80,7 @@ export default function Header() {
             className={classes.menuButton}
             color='inherit'
             aria-label='open drawer'
-            // TODO: onClick={}
+            onClick={() => history.push("/add")}
           >
             <b>Create User</b>
           </IconButton>
