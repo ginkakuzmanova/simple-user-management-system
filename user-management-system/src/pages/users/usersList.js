@@ -60,6 +60,8 @@ const headCells = [
   },
   { id: "lastName", numeric: false, disablePadding: false, label: "Last Name" },
   { id: "email", numeric: false, disablePadding: false, label: "Email" },
+  { id: "delete", numeric: false, disablePadding: false, label: "" },
+  { id: "edit", numeric: false, disablePadding: false, label: "" },
 ];
 
 function EnhancedTableHead(props) {
@@ -106,7 +108,6 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
