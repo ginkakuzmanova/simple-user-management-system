@@ -61,8 +61,7 @@ const headCells = [
   },
   { id: "lastName", numeric: false, disablePadding: false, label: "Last Name" },
   { id: "email", numeric: false, disablePadding: false, label: "Email" },
-  { id: "delete", numeric: false, disablePadding: false, label: "" },
-  { id: "edit", numeric: false, disablePadding: false, label: "" },
+  { id: "buttons", numeric: false, disablePadding: false, label: "Actions" },
 ];
 
 function EnhancedTableHead(props) {
@@ -120,6 +119,12 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     minWidth: 750,
+  },
+  button: {
+    opacity: "0",
+    "&:hover": {
+      opacity: "1",
+    },
   },
   visuallyHidden: {
     border: 0,
@@ -254,8 +259,9 @@ export default function EnhancedTable() {
                       <TableCell>{row.firstName}</TableCell>
                       <TableCell>{row.lastName}</TableCell>
                       <TableCell>{row.email}</TableCell>
-                      <TableCell>
+                      <TableCell className={classes.button}>
                         <Button
+                          style={{ marginRight: "30px" }}
                           variant='outlined'
                           color='secondary'
                           onClick={() => {
@@ -270,8 +276,6 @@ export default function EnhancedTable() {
                         >
                           Delete
                         </Button>
-                      </TableCell>
-                      <TableCell>
                         <Button
                           variant='outlined'
                           color='primary'
