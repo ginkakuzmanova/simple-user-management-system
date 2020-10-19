@@ -14,9 +14,9 @@ import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import { useSelector, useDispatch } from "react-redux";
-import { removeUser } from "../../store/usersSlice";
+import { useSelector } from "react-redux";
 import EditDialog from "../../components/EditDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
 import UsersEditing from "./UsersEditing";
 
 function descendingComparator(a, b, orderBy) {
@@ -144,6 +144,12 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [recordForEdit, setRecordForEdit] = React.useState(null);
+  const [confirmDialog, setConfirmDialog] = React.useState({
+    isOpen: false,
+    title: "",
+    subtitle: "",
+    recordToDelete: null,
+  });
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -194,7 +200,6 @@ export default function EnhancedTable() {
   };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -252,7 +257,15 @@ export default function EnhancedTable() {
                         <Button
                           variant='outlined'
                           color='secondary'
-                          onClick={() => dispatch(removeUser(row))}
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title:
+                                "Are you sure you want to delete this user?",
+                              subtitle: "This operation can't be undone!",
+                              recordToDelete: row,
+                            });
+                          }}
                         >
                           Delete
                         </Button>
@@ -290,6 +303,10 @@ export default function EnhancedTable() {
       <EditDialog openPopup={openDialog} setOpenPopup={setOpenDialog}>
         <UsersEditing recordForEdit={recordForEdit} />
       </EditDialog>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label='Dense padding'

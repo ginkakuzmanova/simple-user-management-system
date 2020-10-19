@@ -14,15 +14,15 @@ const { reducer: usersReducer, actions } = createSlice({
       }
     },
     editUser: (state, action) => {
-      const {id} = action.payload;
-        for(let i = 0; i< state.length; i++) {
-          const user = state[i];
-          if(user.id === id) {
-            user.firstName = action.payload.firstName;
-            user.lastName = action.payload.lastName;
-            user.email = action.payload.email;
-          }
+      const { id } = action.payload;
+      for (let i = 0; i < state.length; i++) {
+        const user = state[i];
+        if (user.id === id) {
+          user.firstName = action.payload.firstName;
+          user.lastName = action.payload.lastName;
+          user.email = action.payload.email;
         }
+      }
     },
     deleteUser: (state, action) => {
       const { id } = action.payload;
@@ -41,7 +41,7 @@ export const addUser = (user) => {
   };
 };
 
-export const editUser = ({...user } ) => {
+export const editUser = ({ ...user }) => {
   return (dispatch) => {
     dispatch(actions.editUser(user));
   };
