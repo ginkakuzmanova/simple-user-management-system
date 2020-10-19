@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { FormatAlignJustify } from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {

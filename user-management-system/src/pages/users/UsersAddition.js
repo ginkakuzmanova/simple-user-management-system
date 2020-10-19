@@ -1,7 +1,7 @@
 import { PersonAddOutlined } from "@material-ui/icons";
 import React, { Fragment } from "react";
 import FormHeader from "../../components/FormHeader";
-import UserForm from "./userForm";
+import UserForm from "./UserForm";
 
 export default function UsersAddition() {
   return (

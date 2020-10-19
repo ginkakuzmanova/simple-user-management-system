@@ -1,32 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import FormHeader from "../../components/FormHeader";
-import { PeopleAltRounded } from "@material-ui/icons";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { useSelector, useDispatch } from "react-redux";
-import { removeUser } from "../../store/usersSlice";
-import EditDialog from "../../components/editDialog";
-import UserForm from "./userForm";
+import { useSelector } from "react-redux";
+import EditDialog from "../../components/EditDialog";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import UsersEditing from "./UsersEditing";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -59,7 +50,7 @@ const headCells = [
     id: "id",
     numeric: false,
     disablePadding: true,
-    label: "User",
+    label: "User ID",
   },
   {
     id: "firstName",
@@ -69,15 +60,12 @@ const headCells = [
   },
   { id: "lastName", numeric: false, disablePadding: false, label: "Last Name" },
   { id: "email", numeric: false, disablePadding: false, label: "Email" },
+  { id: "delete", numeric: false, disablePadding: false, label: "" },
+  { id: "edit", numeric: false, disablePadding: false, label: "" },
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -121,76 +109,6 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === "light"
-      ? {
-          color: theme.palette.primary.main,
-          backgroundColor: lighten(theme.palette.primary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.primary.dark,
-        },
-  title: {
-    flex: "1 1 100%",
-  },
-}));
-
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color='primary'
-          variant='subtitle1'
-          component='div'
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          className={classes.title}
-          variant='h6'
-          id='tableTitle'
-          component='div'
-        >
-          Users
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title='Delete'>
-          <IconButton aria-label='delete'>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title='Filter list'>
-          <IconButton aria-label='filter list'>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -226,6 +144,12 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [recordForEdit, setRecordForEdit] = React.useState(null);
+  const [confirmDialog, setConfirmDialog] = React.useState({
+    isOpen: false,
+    title: "",
+    subtitle: "",
+    recordToDelete: null,
+  });
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -273,10 +197,9 @@ export default function EnhancedTable() {
   const openInModal = (item) => {
     setRecordForEdit(item);
     setOpenDialog(true);
-  }
+  };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -334,7 +257,15 @@ export default function EnhancedTable() {
                         <Button
                           variant='outlined'
                           color='secondary'
-                          onClick={() => dispatch(removeUser(row))}
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title:
+                                "Are you sure you want to delete this user?",
+                              subtitle: "This operation can't be undone!",
+                              recordToDelete: row,
+                            });
+                          }}
                         >
                           Delete
                         </Button>
@@ -370,13 +301,12 @@ export default function EnhancedTable() {
         />
       </Paper>
       <EditDialog openPopup={openDialog} setOpenPopup={setOpenDialog}>
-        <FormHeader
-          title='Edit User'
-          subTitle='Please edit user details'
-          icon={<PeopleAltRounded />}
-        ></FormHeader>
-        <UserForm  recordForEdit={recordForEdit}/>
+        <UsersEditing recordForEdit={recordForEdit} />
       </EditDialog>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label='Dense padding'
