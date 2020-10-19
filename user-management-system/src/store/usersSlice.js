@@ -52,9 +52,3 @@ export const removeUser = (user) => {
     dispatch(actions.deleteUser(user));
   };
 };
-
-export const findUser = (user) => {
-  return (dispatch) => {
-    dispatch(actions.findUser(user));
-  };
-};
