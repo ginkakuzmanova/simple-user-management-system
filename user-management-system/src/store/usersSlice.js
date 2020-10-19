@@ -7,23 +7,22 @@ const { reducer: usersReducer, actions } = createSlice({
   reducers: {
     addUser: (state, action) => {
       const { firstName, lastName, email } = action.payload;
-      if(!state.includes(action.payload)){
-      state.push({ id: uuid(), firstName, lastName, email });
+      if (!state.includes(action.payload)) {
+        state.push({ id: uuid(), firstName, lastName, email });
       } else {
         throw new Error();
       }
     },
     editUser: (state, action) => {
-      for (let i = 0; i < state.length; i++) {
-        const user = state[i];
-
-        if (user.id === action.payload.id) {
-          user.firstName = action.payload.firstName;
-          user.lastName = action.payload.lastName;
-          user.email = action.payload.email;
-          break;
+      const {id} = action.payload;
+        for(let i = 0; i< state.length; i++) {
+          const user = state[i];
+          if(user.id === id) {
+            user.firstName = action.payload.firstName;
+            user.lastName = action.payload.lastName;
+            user.email = action.payload.email;
+          }
         }
-      }
     },
     deleteUser: (state, action) => {
       const { id } = action.payload;
@@ -42,7 +41,7 @@ export const addUser = (user) => {
   };
 };
 
-export const editUser = (user) => {
+export const editUser = ({...user } ) => {
   return (dispatch) => {
     dispatch(actions.editUser(user));
   };

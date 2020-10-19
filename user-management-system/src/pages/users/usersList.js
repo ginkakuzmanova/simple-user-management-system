@@ -25,8 +25,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUser } from "../../store/usersSlice";
-import EditDialog from "../../components/editDialog";
-import UserForm from "./userForm";
+import EditDialog from "../../components/EditDialog";
+import UsersEditing from "./UsersEditing";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,12 +72,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    classes,
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -273,7 +268,7 @@ export default function EnhancedTable() {
   const openInModal = (item) => {
     setRecordForEdit(item);
     setOpenDialog(true);
-  }
+  };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   const dispatch = useDispatch();
@@ -370,12 +365,7 @@ export default function EnhancedTable() {
         />
       </Paper>
       <EditDialog openPopup={openDialog} setOpenPopup={setOpenDialog}>
-        <FormHeader
-          title='Edit User'
-          subTitle='Please edit user details'
-          icon={<PeopleAltRounded />}
-        ></FormHeader>
-        <UserForm  recordForEdit={recordForEdit}/>
+        <UsersEditing recordForEdit={recordForEdit} />
       </EditDialog>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}

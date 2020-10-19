@@ -1,27 +1,43 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Button, Card } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
 import { Formik, Form, Field } from "formik";
 import { UserValidationSchema } from "../../validation/userSchema";
-import { useDispatch } from "react-redux";
-import { addUser } from "../../store/usersSlice";
-import { useHistory } from "react-router-dom";
+import { editUser } from "../../store/usersSlice";
+import { Alert } from "react-bootstrap";
 
-export default function UserForm() {
+export default function UserEditForm(props) {
+  const { recordForEdit } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const alert = () => {
+    setTimeout(() => {
+      return <Alert variant='success'>Edited successfully!</Alert>;
+    }, 2000);
+  };
   return (
-    <Card variant='outlined'>
+    <Card
+      variant='outlined'
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr",
+        alignItems: "center",
+        justifyContent: "center",
+        justifyItems: "center",
+      }}
+    >
       <Formik
         initialValues={{
-          firstName: "",
-          lastName:"",
-          email: "",
+          id: recordForEdit.id,
+          firstName: recordForEdit.firstName,
+          lastName: recordForEdit.lastName,
+          email: recordForEdit.email,
         }}
         onSubmit={(values, { resetForm }) => {
           try {
-            dispatch(addUser(values));
-            resetForm({ values: "" });
+            dispatch(editUser(values));
           } catch (error) {
             resetForm({ values: "" });
           }
@@ -54,21 +70,13 @@ export default function UserForm() {
               <br />
               <br />
               <Button
-                style={{ marginBottom: "20px" }}
+                style={{ marginBottom: "20px", marginLeft: "56px" }}
                 variant='outlined'
-                color='primary'
                 type='submit'
+                color='primary'
                 disabled={!isValid || isSubmitting}
               >
-                Submit
-              </Button>
-              <Button
-                style={{ marginBottom: "20px", marginLeft: "1em" }}
-                variant='outlined'
-                color='primary'
-                onClick={() => history.push("/")}
-              >
-                Back
+                Edit
               </Button>
             </Form>
           );

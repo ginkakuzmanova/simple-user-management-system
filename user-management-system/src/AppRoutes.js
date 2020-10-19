@@ -1,8 +1,7 @@
 import React from "react";
-import {Route, Switch } from "react-router-dom";
-import UsersTable from "./pages/users/usersList";
+import { Route, Switch } from "react-router-dom";
+import UsersTable from "./pages/users/UsersList";
 import UsersAddition from "./pages/users/UsersAddition";
-import UserEditing from "./pages/users/userEditing";
 
 const AppRoutes = () => {
   return (
@@ -12,9 +11,6 @@ const AppRoutes = () => {
       </Route>
       <Route path='/add'>
         <UsersAddition />
-      </Route>
-      <Route path='/edit'>
-        <UserEditing />
       </Route>
     </Switch>
   );
