@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import FormHeader from "../../components/FormHeader";
 import UserForm from "./UserForm";
 
-export default function UsersAddition() {
+const UsersAddition = () => {
   return (
     <Fragment>
       <FormHeader
@@ -15,3 +15,5 @@ export default function UsersAddition() {
     </Fragment>
   );
 }
+
+export default UsersAddition;

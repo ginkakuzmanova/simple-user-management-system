@@ -15,7 +15,7 @@ export default function UserForm() {
       <Formik
         initialValues={{
           firstName: "",
-          lastName:"",
+          lastName: "",
           email: "",
         }}
         onSubmit={(values, { resetForm }) => {

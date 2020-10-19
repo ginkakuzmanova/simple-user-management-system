@@ -1,22 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button, Card } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
 import { Formik, Form, Field } from "formik";
 import { UserValidationSchema } from "../../validation/userSchema";
 import { editUser } from "../../store/usersSlice";
-import { Alert } from "react-bootstrap";
 
 export default function UserEditForm(props) {
   const { recordForEdit } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
-  const alert = () => {
-    setTimeout(() => {
-      return <Alert variant='success'>Edited successfully!</Alert>;
-    }, 2000);
-  };
   return (
     <Card
       variant='outlined'

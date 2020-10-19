@@ -3,7 +3,7 @@ import FormHeader from "../../components/FormHeader";
 import { PeopleAltRounded } from "@material-ui/icons";
 import UserEditForm from "./UserEditForm";
 
-export default function UsersEditing(props) {
+const UsersEditing = (props) => {
   const { recordForEdit } = props;
   return (
     <Fragment>
@@ -16,3 +16,5 @@ export default function UsersEditing(props) {
     </Fragment>
   );
 }
+
+export default UsersEditing;
