@@ -15,6 +15,6 @@ const UsersEditing = (props) => {
       <UserEditForm recordForEdit={recordForEdit} />
     </Fragment>
   );
-}
+};
 
 export default UsersEditing;
