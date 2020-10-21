@@ -6,10 +6,16 @@ import { UserValidationSchema } from "../../validation/userSchema";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../store/usersSlice";
 import { useHistory } from "react-router-dom";
+import Notification from "../../components/Notification"
 
 export default function UserForm() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   return (
     <Card variant='outlined'>
       <Formik
@@ -21,6 +27,11 @@ export default function UserForm() {
         onSubmit={(values, { resetForm }) => {
           try {
             dispatch(addUser(values));
+            setNotify({
+              isOpen: true,
+              message: "User created successfully.",
+              type: "success",
+            });
             resetForm({ values: "" });
           } catch (error) {
             resetForm({ values: "" });
@@ -74,6 +85,10 @@ export default function UserForm() {
           );
         }}
       </Formik>
+      <Notification
+                notify={notify}
+                setNotify={setNotify}
+            />
     </Card>
   );
 }

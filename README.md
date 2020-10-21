@@ -1,4 +1,4 @@
-## Simple User Management System
+# Simple User Management System
 A CRUD Application for Users
 
 ## Description
