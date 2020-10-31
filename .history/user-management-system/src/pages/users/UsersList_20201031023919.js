@@ -162,13 +162,13 @@ export default function EnhancedTable() {
   });
 
   useEffect(()=> {
-    dispatch(copyUsers(users))
+    dispatch(copyUsers(users));
   }, [users])
 
   const handleSearch = (e) => {
     let target = e.target;
     console.log(target.value);
-    if (target.value === "") dispatch(copyUsers(users));
+    if (target.value !== "")
     else dispatch(filterUsers(target.value.toLowerCase()));
   };
 

@@ -1,4 +1,4 @@
-import React, {useEffect}from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
@@ -19,7 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import EditDialog from "../../components/EditDialog";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import UsersEditing from "./UsersEditing";
-import { copyUsers, filterUsers } from "../../store/copySlice";
+import {copyUsers, filterUsers} from "../../store/copySlice"
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -142,8 +142,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function EnhancedTable() {
-  const users = useSelector((state) => state.users);
-  const rows = useSelector((state) => state.copyUsers);
+  const rows = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
@@ -161,15 +160,11 @@ export default function EnhancedTable() {
     recordToDelete: null,
   });
 
-  useEffect(()=> {
-    dispatch(copyUsers(users))
-  }, [users])
-
   const handleSearch = (e) => {
     let target = e.target;
-    console.log(target.value);
-    if (target.value === "") dispatch(copyUsers(users));
-    else dispatch(filterUsers(target.value.toLowerCase()));
+    if (target.value == "") dispatch(copyUsers(rows));
+    else
+      return 
   };
 
   const handleRequestSort = (event, property) => {
@@ -343,7 +338,8 @@ export default function EnhancedTable() {
           margin: "0 auto",
           borderRadius: "15px",
         }}
-        onChange={(e) => handleSearch(e)}
+        onChange={handleSearch}
+        inputProps={{ "aria-label": "search" }}
       />
     </div>
   );

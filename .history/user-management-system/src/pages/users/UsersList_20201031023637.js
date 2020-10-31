@@ -161,9 +161,7 @@ export default function EnhancedTable() {
     recordToDelete: null,
   });
 
-  useEffect(()=> {
-    dispatch(copyUsers(users))
-  }, [users])
+  useEffect(())
 
   const handleSearch = (e) => {
     let target = e.target;

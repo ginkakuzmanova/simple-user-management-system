@@ -162,7 +162,7 @@ export default function EnhancedTable() {
   });
 
   useEffect(()=> {
-    dispatch(copyUsers(users))
+
   }, [users])
 
   const handleSearch = (e) => {

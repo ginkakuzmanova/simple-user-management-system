@@ -1,4 +1,4 @@
-import React, {useEffect}from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
@@ -160,10 +160,6 @@ export default function EnhancedTable() {
     subtitle: "",
     recordToDelete: null,
   });
-
-  useEffect(()=> {
-    dispatch(copyUsers(users))
-  }, [users])
 
   const handleSearch = (e) => {
     let target = e.target;
