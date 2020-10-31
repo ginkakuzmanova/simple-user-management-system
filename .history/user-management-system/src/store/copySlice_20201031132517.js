@@ -1,17 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+function arrayEquals(a, b) {
+  return (
+    Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index])
+  );
+}
+
 const { reducer: copyReducer, actions } = createSlice({
   name: "copy",
   initialState: [],
   reducers: {
-    copyUsers: (state, action) => { 
-       return state = action.payload.map(a => ({...a}));
+    copyUsers: (state, action) => {
+     
     },
-    
+
     filterUsers: (state, action) => {
-        const firstName = action.payload;
-        return state.filter(u => u.firstName.toLowerCase().includes(firstName))
-    }
+      const firstName = action.payload;
+      return state.filter((u) => u.firstName.toLowerCase().includes(firstName));
+    },
   },
 });
 
@@ -28,4 +37,3 @@ export const filterUsers = (firstName) => {
     dispatch(actions.filterUsers(firstName));
   };
 };
-

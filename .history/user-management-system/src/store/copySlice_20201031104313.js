@@ -4,14 +4,19 @@ const { reducer: copyReducer, actions } = createSlice({
   name: "copy",
   initialState: [],
   reducers: {
-    copyUsers: (state, action) => { 
-       return state = action.payload.map(a => ({...a}));
+    copyUsers: (state, action) => {
+        if(action.payload.length === 0) {
+            state = [];
+        }
+      for (let i = 0; i < action.payload.length; i++) {
+        state[i] = action.payload[i];
+      }
     },
-    
+
     filterUsers: (state, action) => {
-        const firstName = action.payload;
-        return state.filter(u => u.firstName.toLowerCase().includes(firstName))
-    }
+      const firstName = action.payload;
+      return state.filter((u) => u.firstName.toLowerCase().includes(firstName));
+    },
   },
 });
 
@@ -28,4 +33,3 @@ export const filterUsers = (firstName) => {
     dispatch(actions.filterUsers(firstName));
   };
 };
-

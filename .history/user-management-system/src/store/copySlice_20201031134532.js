@@ -5,7 +5,11 @@ const { reducer: copyReducer, actions } = createSlice({
   initialState: [],
   reducers: {
     copyUsers: (state, action) => { 
-       return state = action.payload.map(a => ({...a}));
+
+        // for (let i = 0; i < action.payload.length; i++) {
+        //     state[i] = action.payload[i];
+        //   }
+        JSON.parse(JSON.stringify(action.payload));
     },
     
     filterUsers: (state, action) => {
