@@ -162,7 +162,7 @@ export default function EnhancedTable() {
   });
 
   useEffect(()=> {
-    dispatch(copyUsers(users))
+
   }, [users])
 
   const handleSearch = (e) => {
@@ -333,7 +333,7 @@ export default function EnhancedTable() {
         label='Dense padding'
       />
       <InputBase
-        placeholder='Search /first name/?'
+        placeholder='Search…'
         style={{
           display: "block",
           width: "25%",
@@ -342,7 +342,6 @@ export default function EnhancedTable() {
           padding: "8px 10px",
           margin: "0 auto",
           borderRadius: "15px",
-          marginBottom:"20px"
         }}
         onChange={(e) => handleSearch(e)}
       />

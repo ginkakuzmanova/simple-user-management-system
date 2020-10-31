@@ -342,7 +342,6 @@ export default function EnhancedTable() {
           padding: "8px 10px",
           margin: "0 auto",
           borderRadius: "15px",
-          marginBottom:"20px"
         }}
         onChange={(e) => handleSearch(e)}
       />

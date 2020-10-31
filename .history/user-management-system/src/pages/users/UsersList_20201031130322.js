@@ -168,8 +168,8 @@ export default function EnhancedTable() {
   const handleSearch = (e) => {
     let target = e.target;
     console.log(target.value);
-    if (target.value === "") dispatch(copyUsers(users));
-    else dispatch(filterUsers(target.value.toLowerCase()));
+    if (target.value !== "") dispatch(filterUsers(target.value.toLowerCase()));
+    else dispatch(copyUsers(users))
   };
 
   const handleRequestSort = (event, property) => {
@@ -333,7 +333,7 @@ export default function EnhancedTable() {
         label='Dense padding'
       />
       <InputBase
-        placeholder='Search /first name/?'
+        placeholder='Search…'
         style={{
           display: "block",
           width: "25%",
@@ -342,7 +342,6 @@ export default function EnhancedTable() {
           padding: "8px 10px",
           margin: "0 auto",
           borderRadius: "15px",
-          marginBottom:"20px"
         }}
         onChange={(e) => handleSearch(e)}
       />
