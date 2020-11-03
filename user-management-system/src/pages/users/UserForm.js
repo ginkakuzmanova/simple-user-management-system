@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
 import { Formik, Form, Field } from "formik";
@@ -11,11 +11,12 @@ import Notification from "../../components/Notification"
 export default function UserForm() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [notify, setNotify] = React.useState({
+  const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
+  
   return (
     <Card variant='outlined'>
       <Formik

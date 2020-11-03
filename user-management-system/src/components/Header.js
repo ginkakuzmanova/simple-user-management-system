@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const history = useHistory();
   const classes = useStyles();
+  
   return (
     <div className={classes.root}>
       <AppBar position='static' className={classes.appBar}>

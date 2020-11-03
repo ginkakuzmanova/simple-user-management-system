@@ -49,6 +49,7 @@ export default function ConfirmDialog(props) {
   };
   const classes = useStyles();
   const dispatch = useDispatch();
+  
   return (
     <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
       <DialogTitle className={classes.dialogTitle}>

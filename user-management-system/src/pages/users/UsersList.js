@@ -1,4 +1,4 @@
-import React, {useEffect}from "react";
+import React, { useEffect, useState }from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
@@ -146,15 +146,15 @@ export default function EnhancedTable() {
   const rows = useSelector((state) => state.copyUsers);
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [openDialog, setOpenDialog] = React.useState(false);
-  const [recordForEdit, setRecordForEdit] = React.useState(null);
-  const [confirmDialog, setConfirmDialog] = React.useState({
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
     subtitle: "",
