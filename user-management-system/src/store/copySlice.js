@@ -7,7 +7,6 @@ const { reducer: copyReducer, actions } = createSlice({
     copyUsers: (state, action) => { 
        return state = action.payload.map(a => ({...a}));
     },
-    
     filterUsers: (state, action) => {
         const firstName = action.payload;
         return state.filter(u => u.firstName.toLowerCase().includes(firstName))
